@@ -1,0 +1,21 @@
+$passwordInputIconWidth = 10px;
+$passwordInputIconHeight = 10px;
+
+@import 'nib';
+@import '../../../lib/stylus-utilus/src/stylus-utilus/reset.styl';
+@import '../../../lib/stylus-utilus/src/stylus-utilus/boilerplate.styl';
+
+@import '../../../src/styl/passwordinput.styl';
+
+.passwordInput {
+	width: 250px;
+	height: 20px;
+
+	&--icon {
+		background-color: red;
+	}
+
+	&-revealed &--icon {
+		background-color: green;
+	}
+}

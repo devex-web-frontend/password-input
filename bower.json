@@ -1,0 +1,21 @@
+{
+    "name": "passwordinput",
+    "version": "1.0.1",
+    "private": true,
+    "license": "MPL-2.0",
+    "main": "src/passwordinput.js",
+    "ignore": [
+        ".*",
+        "test/**",
+        "Gruntfile.js",
+        "karma.*.js",
+        "bower.json",
+        "package.json"
+    ],
+    "dependencies": {
+        "dxjs": "FrontEnd/dxjs#^2.0.0"
+    },
+	"devDependencies": {
+		"stylus-utilus": "FrontEnd/stylus-utilus#^1.0.0"
+	}
+}
