@@ -13,7 +13,7 @@
         "package.json"
     ],
     "dependencies": {
-        "dxjs": "FrontEnd/dxjs#^2.0.0"
+        "dxjs": "devex-web-frontend/dxjs#~2.0.3"
     },
 	"devDependencies": {
 		"stylus-utilus": "FrontEnd/stylus-utilus#^1.0.0"
