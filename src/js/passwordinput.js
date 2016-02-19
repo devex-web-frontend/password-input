@@ -5,16 +5,22 @@
  * @requires DX.Event
  * @requires DX.Dom
  * @requires DX.Bem
+ * @requires DX.Tmpl
  * @class PasswordInput
  */
 var PasswordInput = (function(DX, window, document, undefined) {
 	'use strict';
 
 	var CN_BLOCK = 'passwordInput',
-			CN_PASSWORD_INPUT = CN_BLOCK + '--passwordInput',
-			CN_TEXT_INPUT = CN_BLOCK + '--textInput',
-			CN_ICON = CN_BLOCK + '--icon',
-			MOD_REVEALED = 'revealed';
+		CN_PASSWORD_INPUT = CN_BLOCK + '--passwordInput',
+		CN_TEXT_INPUT = CN_BLOCK + '--textInput',
+		CN_ICON = CN_BLOCK + '--icon',
+		MOD_REVEALED = 'revealed',
+		defaultConfig = {
+			INNER_TMPL: '<input type="text" class="' + CN_TEXT_INPUT + '">{%= HIDDEN_ICON_TMPL %}',
+			REVEALED_ICON_TMPL: '<span class="' + CN_ICON + '"></span>',
+			HIDDEN_ICON_TMPL: '<span class="' + CN_ICON + '"></span>'
+		};
 
 	function setAttributes(input, otherInput) {
 		input.value = otherInput.value;
@@ -37,12 +43,14 @@ var PasswordInput = (function(DX, window, document, undefined) {
 		setCaretAt(input, input.value.length); // seems to be only needed in Firefox
 	}
 
-	return function PasswordInput(passwordInput) {
+	return function PasswordInput(passwordInput, customConfig) {
 		var block,
-				textInput,
-				icon;
+			textInput,
+			icon,
+			config;
 
 		function init() {
+			config = Object.assign({}, defaultConfig, customConfig);
 			createElements();
 
 			icon.addEventListener(DX.Event.CLICK, toggleRevealedState);
@@ -60,14 +68,11 @@ var PasswordInput = (function(DX, window, document, undefined) {
 		function createElements() {
 			block = DX.Dom.createElement('span', {
 				className: CN_BLOCK,
-				html: [
-					'<input type="text" class="' + CN_TEXT_INPUT + '">',
-					'<span class="' + CN_ICON + '"></span>'
-				]
+				html: DX.Tmpl.process(config.INNER_TMPL, config)
 			});
 
 			textInput = DX.$$('.' + CN_TEXT_INPUT, block);
-			icon = DX.$$('.' + CN_ICON, block);
+			icon = DX.$$('.' + CN_TEXT_INPUT + '+ *', block);
 
 			DX.Dom.getParent(passwordInput).insertBefore(block, passwordInput);
 			block.insertBefore(passwordInput, textInput);
@@ -95,12 +100,14 @@ var PasswordInput = (function(DX, window, document, undefined) {
 		function setRevealedState() {
 			setAttributes(textInput, passwordInput);
 			DX.Bem.addModifier(block, MOD_REVEALED);
+			icon = DX.Tmpl.process(config.REVEALED_ICON_TMPL, config);
 			setFocusAndCaret(textInput);
 		}
 
 		function removeRevealedState() {
 			setAttributes(passwordInput, textInput);
 			DX.Bem.removeModifier(block, MOD_REVEALED);
+			icon = DX.Tmpl.process(config.HIDDEN_ICON_TMPL, config);
 			setFocusAndCaret(passwordInput);
 		}
 
