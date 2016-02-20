@@ -17,9 +17,10 @@ var PasswordInput = (function(DX, window, document, undefined) {
 		CN_ICON = CN_BLOCK + '--icon',
 		MOD_REVEALED = 'revealed',
 		defaultConfig = {
-			INNER_TMPL: '<input type="text" class="' + CN_TEXT_INPUT + '">{%= HIDDEN_ICON_TMPL %}',
-			REVEALED_ICON_TMPL: '<span class="' + CN_ICON + '"></span>',
-			HIDDEN_ICON_TMPL: '<span class="' + CN_ICON + '"></span>'
+			INNER_TMPL: '<input type="text" class="' + CN_TEXT_INPUT + '">' +
+			'<span class="' + CN_ICON + '">{%= HIDDEN_ICON_TMPL %}</span>',
+			REVEALED_ICON_TMPL: '',
+			HIDDEN_ICON_TMPL: ''
 		};
 
 	function setAttributes(input, otherInput) {
@@ -72,7 +73,7 @@ var PasswordInput = (function(DX, window, document, undefined) {
 			});
 
 			textInput = DX.$$('.' + CN_TEXT_INPUT, block);
-			icon = DX.$$('.' + CN_TEXT_INPUT + '+ *', block);
+			icon = DX.$$('.' + CN_ICON, block);
 
 			DX.Dom.getParent(passwordInput).insertBefore(block, passwordInput);
 			block.insertBefore(passwordInput, textInput);
@@ -100,14 +101,14 @@ var PasswordInput = (function(DX, window, document, undefined) {
 		function setRevealedState() {
 			setAttributes(textInput, passwordInput);
 			DX.Bem.addModifier(block, MOD_REVEALED);
-			icon = DX.Tmpl.process(config.REVEALED_ICON_TMPL, config);
+			icon.innerHTML = DX.Tmpl.process(config.REVEALED_ICON_TMPL, config);
 			setFocusAndCaret(textInput);
 		}
 
 		function removeRevealedState() {
 			setAttributes(passwordInput, textInput);
 			DX.Bem.removeModifier(block, MOD_REVEALED);
-			icon = DX.Tmpl.process(config.HIDDEN_ICON_TMPL, config);
+			icon.innerHTML = DX.Tmpl.process(config.HIDDEN_ICON_TMPL, config);
 			setFocusAndCaret(passwordInput);
 		}
 
