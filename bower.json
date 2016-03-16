@@ -16,6 +16,6 @@
         "dxjs": "devex-web-frontend/dxjs#~2.0.3"
     },
 	"devDependencies": {
-		"stylus-utilus": "FrontEnd/stylus-utilus#^1.0.0"
+		"stylus-utilus": "devex-web-frontend/stylus-utilus#^1.2.2"
 	}
 }

@@ -1,4 +1,9 @@
 describe('PasswordInput', function() {
+	var customConfig = {
+		REVEALED_ICON_TMPL: '123',
+		HIDDEN_ICON_TMPL: '456'
+	};
+
 	beforeEach(function() {
 		document.body.innerHTML = '<input type="password">';
 	});
@@ -50,7 +55,28 @@ describe('PasswordInput', function() {
 			});
 		});
 	});
+	describe('custom config', function() {
+		var pi, input;
 
+		beforeEach(function() {
+			input = document.querySelector('input');
+			pi = new PasswordInput(document.querySelector('input'), customConfig);
+		});
+		afterEach(function() {
+			pi = input = null;
+		});
+		it('should update icon inner depending on state', function() {
+			expect(document.querySelector('.passwordInput--icon').innerHTML).toEqual('456');
+
+			pi.toggleRevealedState();
+
+			expect(document.querySelector('.passwordInput--icon').innerHTML).toEqual('123');
+
+			pi.toggleRevealedState();
+
+			expect(document.querySelector('.passwordInput--icon').innerHTML).toEqual('456');
+		});
+	});
 	describe('Methods', function() {
 		var pi, input;
 
