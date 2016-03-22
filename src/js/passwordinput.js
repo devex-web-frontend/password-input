@@ -8,7 +8,7 @@
  * @requires DX.Tmpl
  * @class PasswordInput
  */
-var PasswordInput = (function(DX, window, document, undefined) {
+var PasswordInput = (function(DX) {
 	'use strict';
 
 	var CN_BLOCK = 'passwordInput',
@@ -124,7 +124,7 @@ var PasswordInput = (function(DX, window, document, undefined) {
 			return passwordInput;
 		};
 	};
-})(DX, window, document);
+})(DX);
 
 PasswordInput.E_CREATED = 'passwordinput:created';
 PasswordInput.E_SET_REVEALED = 'passwordinput:setrevealed';
