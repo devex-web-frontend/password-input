@@ -54,7 +54,8 @@ var PasswordInput = (function(DX) {
 			createElements();
 
 			icon.addEventListener(DX.Event.CLICK, toggleRevealedState);
-			toggleIcon();
+			passwordInput.addEventListener('input', toggleIcon);
+
 			initEventsApi();
 
 			DX.Event.trigger(passwordInput, PasswordInput.E_CREATED, {
@@ -80,7 +81,6 @@ var PasswordInput = (function(DX) {
 		}
 
 		function initEventsApi() {
-			passwordInput.addEventListener('input', toggleIcon);
 			passwordInput.addEventListener(PasswordInput.E_SET_REVEALED, setRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_REMOVE_REVEALED, removeRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_TOGGLE_REVEALED, toggleRevealedState);
