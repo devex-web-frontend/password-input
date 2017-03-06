@@ -16,13 +16,13 @@ var PasswordInput = (function(DX) {
 		CN_TEXT_INPUT = CN_BLOCK + '--textInput',
 		CN_ICON = CN_BLOCK + '--icon',
 		MOD_REVEALED = 'revealed',
+		MOD_SHOWN = 'shown',
 		defaultConfig = {
 			INNER_TMPL: '<input type="text" class="' + CN_TEXT_INPUT + '">' +
 			'<span class="' + CN_ICON + '">{%= HIDDEN_ICON_TMPL %}</span>',
 			REVEALED_ICON_TMPL: '',
 			HIDDEN_ICON_TMPL: ''
 		};
-
 	function setAttributes(input, otherInput) {
 		input.value = otherInput.value;
 		input.name = otherInput.name;
@@ -43,7 +43,6 @@ var PasswordInput = (function(DX) {
 		input.focus();
 		setCaretAt(input, input.value.length); // seems to be only needed in Firefox
 	}
-
 	return function PasswordInput(passwordInput, customConfig) {
 		var block,
 			textInput,
@@ -55,7 +54,7 @@ var PasswordInput = (function(DX) {
 			createElements();
 
 			icon.addEventListener(DX.Event.CLICK, toggleRevealedState);
-
+			toggleIcon();
 			initEventsApi();
 
 			DX.Event.trigger(passwordInput, PasswordInput.E_CREATED, {
@@ -81,11 +80,20 @@ var PasswordInput = (function(DX) {
 		}
 
 		function initEventsApi() {
+			passwordInput.addEventListener('input', toggleIcon);
 			passwordInput.addEventListener(PasswordInput.E_SET_REVEALED, setRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_REMOVE_REVEALED, removeRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_TOGGLE_REVEALED, toggleRevealedState);
 		}
 
+		function toggleIcon() {
+			var isEmpty= !passwordInput.value.length;
+			if(!isEmpty) {
+				DX.Bem.addModifier(icon, MOD_SHOWN);
+			} else {
+				DX.Bem.removeModifier(icon, MOD_SHOWN);
+			}
+		}
 		function isRevealedState() {
 			return DX.Bem.hasModifier(block, MOD_REVEALED);
 		}
