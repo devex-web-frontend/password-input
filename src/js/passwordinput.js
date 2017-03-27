@@ -55,6 +55,7 @@ var PasswordInput = (function(DX) {
 
 			icon.addEventListener(DX.Event.CLICK, toggleRevealedState);
 			passwordInput.addEventListener('input', toggleIcon);
+			textInput.addEventListener('input', toggleIcon);
 
 			initEventsApi();
 
@@ -87,11 +88,21 @@ var PasswordInput = (function(DX) {
 		}
 
 		function toggleIcon() {
-			var isEmpty= !passwordInput.value.length;
-			if(!isEmpty) {
-				DX.Bem.addModifier(icon, MOD_SHOWN);
+			var textInputIsEmpty = !textInput.value.length;
+			var passwordInputIsEmpty = !passwordInput.value.length;
+
+			if (isRevealedState()) {
+				if (textInputIsEmpty)	{
+					DX.Bem.removeModifier(icon, MOD_SHOWN);
+				} else {
+					DX.Bem.addModifier(icon, MOD_SHOWN);
+				}
 			} else {
-				DX.Bem.removeModifier(icon, MOD_SHOWN);
+				if (passwordInputIsEmpty)	{
+					DX.Bem.removeModifier(icon, MOD_SHOWN);
+				} else {
+					DX.Bem.addModifier(icon, MOD_SHOWN);
+				}
 			}
 		}
 		function isRevealedState() {
