@@ -88,8 +88,8 @@ var PasswordInput = (function(DX) {
 		}
 
 		function toggleIcon() {
-			var textInputIsEmpty = !textInput.value.length;
-			var passwordInputIsEmpty = !passwordInput.value.length;
+			var textInputIsEmpty = !textInput.value.length,
+				passwordInputIsEmpty =!passwordInput.value.length;
 
 			if (isRevealedState()) {
 				if (textInputIsEmpty)	{
