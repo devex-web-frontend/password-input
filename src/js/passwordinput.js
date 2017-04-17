@@ -54,7 +54,9 @@ var PasswordInput = (function(DX) {
 			createElements();
 
 			icon.addEventListener(DX.Event.CLICK, toggleRevealedState);
-			toggleIcon();
+			passwordInput.addEventListener('input', toggleIcon);
+			textInput.addEventListener('input', toggleIcon);
+
 			initEventsApi();
 
 			DX.Event.trigger(passwordInput, PasswordInput.E_CREATED, {
@@ -80,18 +82,27 @@ var PasswordInput = (function(DX) {
 		}
 
 		function initEventsApi() {
-			passwordInput.addEventListener('input', toggleIcon);
 			passwordInput.addEventListener(PasswordInput.E_SET_REVEALED, setRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_REMOVE_REVEALED, removeRevealedState);
 			passwordInput.addEventListener(PasswordInput.E_TOGGLE_REVEALED, toggleRevealedState);
 		}
 
 		function toggleIcon() {
-			var isEmpty= !passwordInput.value.length;
-			if(!isEmpty) {
-				DX.Bem.addModifier(icon, MOD_SHOWN);
+			var textInputIsEmpty = !textInput.value.length,
+				passwordInputIsEmpty =!passwordInput.value.length;
+
+			if (isRevealedState()) {
+				if (textInputIsEmpty)	{
+					DX.Bem.removeModifier(icon, MOD_SHOWN);
+				} else {
+					DX.Bem.addModifier(icon, MOD_SHOWN);
+				}
 			} else {
-				DX.Bem.removeModifier(icon, MOD_SHOWN);
+				if (passwordInputIsEmpty)	{
+					DX.Bem.removeModifier(icon, MOD_SHOWN);
+				} else {
+					DX.Bem.addModifier(icon, MOD_SHOWN);
+				}
 			}
 		}
 		function isRevealedState() {
